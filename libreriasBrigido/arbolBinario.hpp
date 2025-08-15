@@ -18,7 +18,7 @@ class ArbolBin{
 
         NodoBinario<Element> *copiarNodos(NodoBinario<Element> *ptr);
         void preOrden(NodoBinario<Element> *ptr, std::list<Element>& nodos);
-        void eliminarNodoBinario(NodoBinario<Element> *ptr);
+        void eliminarNodosBinario(NodoBinario<Element> *ptr);
     
     public:
         ArbolBin(); // Arbol Vacio
@@ -63,20 +63,12 @@ inline void ArbolBin<Element>::preOrden(NodoBinario<Element> *ptr, std::list<Ele
 }
 
 template <class Element>
-inline void ArbolBin<Element>::eliminarNodoBinario(NodoBinario<Element> *ptr)
+inline void ArbolBin<Element>::eliminarNodosBinario(NodoBinario<Element> *ptr)
 {
-    NodoBinario<Element> *borrador;
-    if(ptr->getHijoIzq() != NULL){
+    if(ptr != NULL){
         eliminarNodoBinario(ptr->getHijoIzq());
-        borrador = ptr->getHijoIzq();
-        ptr->setHijoIzq(NULL);
-        delete borrador;
-    }
-    if(ptr->getHijoDer() != NULL){
         eliminarNodoBinario(ptr->getHijoDer());
-        borrador = ptr->getHijoDer();
-        ptr->getHijoDer(NULL);
-        delete borrador;
+        delete ptr;
     }
 }
 
@@ -88,7 +80,9 @@ inline ArbolBin<Element>::ArbolBin(): raiz(NULL) , peso(0)
 template <class Element>
 inline ArbolBin<Element>::ArbolBin(Element e, ArbolBin<Element> a1, ArbolBin<Element> a2)
 {
-    raiz = new NodoBinario<Element>(e,a1.raiz,a2.raiz);
+    raiz = new NodoBinario<Element>(e, copiarNodos(a1.raiz), copiarNodos(a2.raiz));
+
+    // raiz = new NodoBinario<Element>(e,a1.raiz,a2.raiz);
     peso += a1.peso + a2.peso;
 }
 
@@ -138,19 +132,14 @@ inline ArbolBin<Element> ArbolBin<Element>::getHijoIzquierdo()
 {   
     ArbolBin<Element> sub;
     sub.raiz = copiarNodos(raiz->getHijoIzq());
+    return sub;
 }
 
 template <class Element>
 inline ArbolBin<Element> ArbolBin<Element>::getHijoDerecho()
 {
     ArbolBin<Element> sub;
-    std::list<Element> nodosHijo;
-    
-    sub.raiz = copiarNodos(raiz->getHijoIzq());
-    preOrden(sub.raiz,nodosHijo);
-
-    sub.peso = nodosHijo.size();
-
+    sub.raiz = copiarNodos(raiz->getHijoDer());
     return sub;
 }
 
@@ -158,10 +147,8 @@ template <class Element>
 inline void ArbolBin<Element>::vaciarArbol()
 {
     if(raiz != NULL){
-        NodoBinario<Element> *b = raiz;
         eliminarNodoBinario(raiz);
         raiz = NULL;
-        delete b;
         peso = 0;
     }
 }
