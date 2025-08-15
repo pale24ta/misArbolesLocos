@@ -102,8 +102,7 @@ inline ArbolBin<Element>::ArbolBin(const ArbolBin &binary_tree)
 template <class Element>
 inline ArbolBin<Element>::~ArbolBin()
 {
-    eliminarNodoBinario(raiz);
-    delete raiz;
+    vaciarArbol();
 }
 
 template <class Element>
@@ -158,5 +157,11 @@ inline ArbolBin<Element> ArbolBin<Element>::getHijoDerecho()
 template <class Element>
 inline void ArbolBin<Element>::vaciarArbol()
 {
-
+    if(raiz != NULL){
+        NodoBinario<Element> *b = raiz;
+        eliminarNodoBinario(raiz);
+        raiz = NULL;
+        delete b;
+        peso = 0;
+    }
 }
