@@ -5,6 +5,7 @@ template<class Element>
 class NodoBinario{
 
     // Atributos
+    // Nuevo
 
     private:
         Element e;
