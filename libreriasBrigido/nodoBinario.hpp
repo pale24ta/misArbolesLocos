@@ -1,9 +1,6 @@
 #ifndef NODOARBOLHPP
 #define NODOARBOLHPP
 
-#include<iostream>
-#include<list>
-//
 template<class Element>
 class NodoBinario{
 
@@ -18,6 +15,7 @@ class NodoBinario{
     // Metodos
 
         NodoBinario(Element e); // Constructor
+        NodoBinario(Element e, NodoBinario<Element> *izq, NodoBinario<Element> *der); // Constructor
         Element& getInfo();
         void setInfo(Element e);
         NodoBinario<Element> *getHijoIzq();
@@ -29,18 +27,21 @@ class NodoBinario{
 };
 
 template<class Element>
-NodoBinario<Element>::NodoBinario(Element e): info(e), hijoIzq(NULL), hijoDer(NULL){} // Constructor
+NodoBinario<Element>::NodoBinario(Element e): e(e), hijoIzq(NULL), hijoDer(NULL){} // Constructor
+
+template <class Element>
+inline NodoBinario<Element>::NodoBinario(Element e, NodoBinario<Element> *izq, NodoBinario<Element> *der): e(e), hijoIzq(izq), hijoDer(der){}
 
 template<class Element>
 Element& NodoBinario<Element>::getInfo()
 {
-    return info;
+    return e;
 }
 
 template<class Element>
 void NodoBinario<Element>::setInfo(Element e)
 {
-    info = e;
+    this->e = e;
 }
 
 template<class Element>
